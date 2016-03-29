@@ -1,18 +1,15 @@
 import React from 'react';
 
 var createSimpleWrapperClass = function(domName) {
-  var myClass = {
-    render: function() {
-      var {disabled, ...others} = this.props;
+  return (props) => {
+    var {disabled, ...others} = props;
 
-      if (disabled) {
-        others.disabled = 'disabled';
-      }
-
-      return React.createElement(domName, others, this.props.children);
+    if (disabled) {
+      others.disabled = 'disabled';
     }
+
+    return React.createElement(domName, others, props.children);
   };
-  return React.createClass(myClass);
 };
 
 var Button = createSimpleWrapperClass('ons-button');
