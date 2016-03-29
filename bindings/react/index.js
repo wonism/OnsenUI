@@ -1,6 +1,5 @@
 import {Dialog, AlertDialog, Popover} from './components/Dialogs.jsx';
 import Input from './components/Input.jsx';
-import Fab from './components/Fab.jsx';
 import LazyList from './components/LazyList.jsx';
 import List from './components/List.jsx';
 import Navigator from './components/Navigator.jsx';
@@ -26,7 +25,8 @@ import {
   Icon,
   Scroller,
   TabActive,
-  TabInactive
+  TabInactive,
+  Fab
 } from './components/SimpleWrapper.jsx';
 
 export {
