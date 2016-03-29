@@ -27,6 +27,7 @@ var Icon = createSimpleWrapperClass('ons-icon');
 var Scroller = createSimpleWrapperClass('ons-scroller');
 var TabActive = createSimpleWrapperClass('ons-tab-active');
 var TabInactive = createSimpleWrapperClass('ons-tab-inactive');
+var Fab = createSimpleWrapperClass('ons-fab');
 
 export {
   Button,
@@ -43,5 +44,6 @@ export {
   Icon,
   Scroller,
   TabActive,
-  TabInactive
+  TabInactive,
+  Fab
 };
