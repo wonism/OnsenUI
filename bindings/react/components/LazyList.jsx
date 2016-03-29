@@ -4,6 +4,7 @@ import {ListItem} from './SimpleWrapper.jsx';
 class LazyList extends React.Component {
   componentDidMount() {
     var self = this;
+    CustomElements.upgrade(this.refs.lazyRepeat);
 
     this.refs.lazyRepeat.delegate = {
       calculateItemHeight: function(index) {
