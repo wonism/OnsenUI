@@ -64,6 +64,11 @@ class BaseDialog extends React.Component {
   }
 }
 
+BaseDialog.propTypes = {
+  onCancel: React.PropTypes.func.isRequired,
+  isOpen: React.PropTypes.bool.isRequired,
+}
+
 class Dialog extends BaseDialog {
   _getDomNodeName() {
     return 'ons-dialog';
@@ -89,6 +94,11 @@ class Popover extends BaseDialog {
     }
     return this.node.firstChild.show(target);
   }
+}
+
+Popover.propTypes = {
+  ...BaseDialog.propTypes,
+  getTarget: React.PropTypes.func.isRequired,
 }
 
 export {AlertDialog, Dialog, Popover};
