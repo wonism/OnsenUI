@@ -46,4 +46,9 @@ class Tabbar extends React.Component {
   }
 };
 
+Tabbar.propTypes = {
+  initialIndex: React.PropTypes.number.isRequired,
+  renderTabs: React.PropTypes.func.isRequired
+}
+
 export {Tabbar};

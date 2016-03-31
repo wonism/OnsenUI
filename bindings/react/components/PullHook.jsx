@@ -16,4 +16,9 @@ class PullHook extends React.Component {
   }
 };
 
+PullHook.propTypes = {
+  onLoad: React.PropTypes.func,
+  onChange: React.PropTypes.func,
+}
+
 export default PullHook;

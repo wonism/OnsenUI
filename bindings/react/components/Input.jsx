@@ -29,5 +29,9 @@ class Input extends React.Component {
   }
 }
 
+Input.propTypes = {
+  onChange: React.PropTypes.func,
+  value: React.PropTypes.string
+}
 
 export default Input;

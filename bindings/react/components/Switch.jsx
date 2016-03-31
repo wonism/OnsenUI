@@ -19,4 +19,9 @@ class Switch extends React.Component {
   }
 };
 
+Switch.propTypes = {
+  onChange: React.PropTypes.func.isRequired,
+  checked: React.PropTypes.bool.isRequired
+};
+
 export default Switch;
