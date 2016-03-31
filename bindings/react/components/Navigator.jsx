@@ -94,7 +94,7 @@ class Navigator extends React.Component {
 Navigator.propTypes = {
   renderScene: React.PropTypes.func.isRequired,
   initialRoutes: React.PropTypes.array,
-  initialRoute: React.PropTypes.string,
+  initialRoute: React.PropTypes.object,
 };
 
 export default Navigator;
