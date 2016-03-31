@@ -5,28 +5,29 @@ import List from './components/List.jsx';
 import Navigator from './components/Navigator.jsx';
 import Page from './components/Page.jsx';
 import PullHook from './components/PullHook.jsx';
-import SpeedDial from './components/SpeedDial.jsx';
-import SpeedDialItem from './components/SpeedDialItem.jsx';
 import Switch from './components/Switch.jsx';
-import {Tab, Tabbar} from './components/Tabbar.jsx';
+import {Tabbar} from './components/Tabbar.jsx';
 
 import {
-  Button,
-  Toolbar,
   BackButton,
-  Ripple,
-  Carousel,
-  CarouselItem,
-  CarouselCover,
-  ToolbarButton,
   BottomToolbar,
-  ListItem,
-  ListHeader,
+  Button,
+  Carousel,
+  CarouselCover,
+  CarouselItem,
+  Fab,
   Icon,
+  ListHeader,
+  ListItem,
+  Ripple,
   Scroller,
+  SpeedDial,
+  SpeedDialItem,
+  Tab,
   TabActive,
   TabInactive,
-  Fab
+  Toolbar,
+  ToolbarButton,
 } from './components/SimpleWrapper.jsx';
 
 export {

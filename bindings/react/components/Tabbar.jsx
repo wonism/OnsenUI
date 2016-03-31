@@ -1,42 +1,40 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-var Tabbar = React.createClass({
-  getInitialState: function() {
-    return {
-      activeIndex: this.props.initialIndex || 0
-    };
-  },
+class Tabbar extends React.Component {
 
-  componentDidMount: function() {
-    const node = ReactDOM.findDOMNode(this);
+  constructor(props) {
+    super(props);
+    this.state = {activeIndex: props.initialIndex || 0 };
+  }
+
+  componentDidMount() {
+    const node = this.refs.tabbar;
     CustomElements.upgrade(node);
     node.setActiveTab(this.state.activeIndex);
     node.addEventListener('prechange', this.handleChange);
-  },
+  }
 
-  componentWillUnmount: function() {
-    const node = ReactDOM.findDOMNode(this);
-    node.removeEventListener('prechange', this.handleChange);
-  },
+  componentWillUnmount() {
+    this.refs.tabbar.removeEventListener('prechange', this.handleChange);
+  }
 
-  handleChange: function(event) {
+  handleChange(event) {
     this.setState({activeIndex: event.index});
-  },
+  }
 
-  setActiveTab: function(index, options) {
-    ReactDOM.findDOMNode(this).setActiveTab(index, options);
-  },
+  setActiveTab(index, options) {
+    this.refs.tabbar.setActiveTab(index, options);
+  }
 
-  getActiveTabIndex: function() {
-    return ReactDOM.findDOMNode(this).getActiveTabIndex();
-  },
+  getActiveTabIndex() {
+    return this.refs.tabbar.getActiveTabIndex();
+  }
 
-  render: function() {
+  render() {
     const tabs = this.props.renderTabs(this.state.activeIndex, this);
 
     return (
-      <ons-tabbar {...this.props} activeIndex={this.state.activeIndex} _compiled="true">
+      <ons-tabbar {...this.props} ref="tabbar" activeIndex={this.state.activeIndex} _compiled="true">
         <div no-status-bar-fill className="ons-tab-bar__content tab-bar__content">
           {tabs.map((tab) => tab.content)}
         </div>
@@ -46,12 +44,11 @@ var Tabbar = React.createClass({
       </ons-tabbar>
     );
   }
-});
+};
 
-var Tab = React.createClass({
-  render: function() {
-    return <ons-tab {...this.props}></ons-tab>;
-  }
-});
+Tabbar.propTypes = {
+  initialIndex: React.PropTypes.number.isRequired,
+  renderTabs: React.PropTypes.func.isRequired
+}
 
-export {Tabbar, Tab};
+export {Tabbar};

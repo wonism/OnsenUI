@@ -1,72 +1,101 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-var createDialogClass = function(domName, showFun) {
-  var myClass = {
-    show: function() {
-      this.node.firstChild.show();
-    },
-    hide: function() {
-      this.node.firstChild.hide();
-    },
-    componentDidMount: function() {
-      this.node = document.createElement('div');
-      document.body.appendChild(this.node);
+class BaseDialog extends React.Component {
+  show() {
+    this.node.firstChild.show();
+  }
 
-      this.node.addEventListener('cancel', () => {
-        this.props.onCancel();
-      });
-      this.renderPortal(this.props);
-    },
-    componentWillReceiveProps: function(newProps) {
+  hide() {
+    this.node.firstChild.hide();
+  }
 
-      if (newProps.isOpen != this.props.isOpen) {
-        this.animateShow = true;
-      }
-      this.renderPortal(newProps);
-    },
-    componentWillUnmount: function() {
-      ReactDOM.unmountComponentAtNode(this.node);
-      document.body.removeChild(this.node);
-    },
-    _update: function() {
-      CustomElements.upgrade(this.node.firstChild);
-      if (this.props.isOpen) {
-        if (this.animateShow) {
-          this.show();
-        }
-        this.animateShow = false;
-      } else {
-        this.hide();
-      }
-    },
-    renderPortal: function(props) {
-      var element = React.createElement(domName, props);
-      ReactDOM.render(element, this.node, this._update);
-    },
-    shouldComponentUpdate: function() {
-      return false;
-    },
-    render: function() {
-      return React.DOM.noscript();
+  componentDidMount() {
+    this.node = document.createElement('div');
+    document.body.appendChild(this.node);
+
+    this.node.addEventListener('cancel', () => {
+      this.props.onCancel();
+    });
+    this.renderPortal(this.props);
+  }
+
+  componentWillReceiveProps(newProps) {
+
+    if (newProps.isOpen != this.props.isOpen) {
+      this.animateShow = true;
     }
-  };
-  if (showFun) {
-    myClass.show = showFun;
-  };
+    this.renderPortal(newProps);
+  }
 
-  return React.createClass(myClass);
-};
+  componentWillUnmount() {
+    ReactDOM.unmountComponentAtNode(this.node);
+    document.body.removeChild(this.node);
+  }
 
-var AlertDialog = createDialogClass('ons-alert-dialog');
-var Dialog = createDialogClass('ons-dialog');
+  _update() {
+    CustomElements.upgrade(this.node.firstChild);
+    if (this.props.isOpen) {
+      if (this.animateShow) {
+        this.show();
+      }
+      this.animateShow = false;
+    } else {
+      this.hide();
+    }
+  }
 
-var showFun = function() {
-  var target = this.props.getTarget();
-  target = ReactDOM.findDOMNode(target);
-  return this.node.firstChild.show(target);
-};
+  _getDomNodeName() {
+    throw new Error('_getDomNodeName is not implemented');
+  }
 
-var Popover = createDialogClass('ons-popover', showFun);
+  renderPortal(props) {
+    var element = React.createElement(this._getDomNodeName(), props);
+    ReactDOM.render(element, this.node, this._update.bind(this));
+  }
+
+  shouldComponentUpdate() {
+    return false;
+  }
+
+  render() {
+    return React.DOM.noscript();
+  }
+}
+
+BaseDialog.propTypes = {
+  onCancel: React.PropTypes.func.isRequired,
+  isOpen: React.PropTypes.bool.isRequired,
+}
+
+class Dialog extends BaseDialog {
+  _getDomNodeName() {
+    return 'ons-dialog';
+  }
+}
+
+
+class AlertDialog extends BaseDialog {
+  _getDomNodeName() {
+    return 'ons-alert-dialog';
+  }
+}
+
+class Popover extends BaseDialog {
+  _getDomNodeName() {
+    return 'ons-popover';
+  }
+
+  show() {
+    var target = this.props.getTarget();
+    target = ReactDOM.findDOMNode(target);
+    return this.node.firstChild.show(target);
+  }
+}
+
+Popover.propTypes = {
+  ...BaseDialog.propTypes,
+  getTarget: React.PropTypes.func.isRequired,
+}
 
 export {AlertDialog, Dialog, Popover};

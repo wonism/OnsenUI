@@ -23,4 +23,8 @@ List.defaultProps = {
   renderFooter: () => null
 };
 
+List.propTypes = {
+  dataSource: React.PropTypes.array.isRequired,
+};
+
 export default List;

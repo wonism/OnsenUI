@@ -2,18 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import reactUtil from './reactUtil.jsx';
 
-var Page = React.createClass({
-  componentDidMount: function() {
+
+class Page extends React.Component {
+  componentDidMount() {
     var node = ReactDOM.findDOMNode(this);
     CustomElements.upgrade(node);
-  },
+  }
 
-  render: function() {
+  render() {
     var toolbar;
     var modal;
     var otherChildren = [];
 
-    React.Children.forEach(this.props.children, function(child) {
+    React.Children.forEach(this.props.children, (child) => {
       if (child == null) return;
       if (reactUtil.rendersToToolbar(child)) {
         toolbar = child;
@@ -34,7 +35,13 @@ var Page = React.createClass({
           {modal}
         </div>
       </ons-page>;
-    },
-});
+    }
+};
+
+Navigator.propTypes = {
+  renderScene: React.PropTypes.func.isRequired,
+  initialRoutes: React.PropTypes.array,
+  initialRoute: React.PropTypes.string,
+};
 
 export default Page;

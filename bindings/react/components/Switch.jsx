@@ -1,24 +1,27 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 
-var Switch = React.createClass({
-  componentDidMount: function() {
-    var node = ReactDOM.findDOMNode(this);
-    node.addEventListener('change', this.props.onChange);
-  },
+class Switch extends React.Component {
 
-  componentWillUnmount: function() {
-    var node = ReactDOM.findDOMNode(this);
-    node.removeEventListener('change', this.props.onChange);
-  },
+  componentDidMount() {
+    this.refs.switch.addEventListener('change', this.props.onChange);
+  }
 
-  render: function() {
+  componentWillUnmount() {
+    this.refs.switch.removeEventListener('change', this.props.onChange);
+  }
+
+  render() {
     var {checked, ...other} = this.props;
 
     return (
-      <ons-switch checked={checked ? '' : null} {...other} />
+      <ons-switch ref="switch" checked={checked ? '' : null} {...other} />
     );
   }
-});
+};
+
+Switch.propTypes = {
+  onChange: React.PropTypes.func.isRequired,
+  checked: React.PropTypes.bool.isRequired
+};
 
 export default Switch;
