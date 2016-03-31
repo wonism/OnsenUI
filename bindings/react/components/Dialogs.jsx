@@ -84,7 +84,7 @@ class Popover extends BaseDialog {
 
   show() {
     var target = this.props.getTarget();
-    if (ReactTestUtils.isElement(target)) {
+    if (!ReactTestUtils.isElement(target)) {
       target = ReactDOM.findDOMNode(target);
     }
     return this.node.firstChild.show(target);

@@ -1,15 +1,17 @@
 import React from 'react';
 
 var createSimpleWrapperClass = function(domName) {
-  return (props) => {
-    var {disabled, ...others} = props;
+  return class SimpleClass extends React.Component {
+    render() {
+      var {disabled, ...others} = this.props;
 
-    if (disabled) {
-      others.disabled = 'disabled';
+      if (disabled) {
+        others.disabled = 'disabled';
+      }
+
+      return React.createElement(domName, others, this.props.children);
     }
-
-    return React.createElement(domName, others, props.children);
-  };
+  }
 };
 
 var BackButton = createSimpleWrapperClass('ons-back-button');
