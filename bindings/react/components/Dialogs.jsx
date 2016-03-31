@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ReactTestUtils from 'react-addons-test-utils';
 
 var createDialogClass = function(domName, showFun) {
   var myClass = {
@@ -64,9 +63,7 @@ var Dialog = createDialogClass('ons-dialog');
 
 var showFun = function() {
   var target = this.props.getTarget();
-  if (ReactTestUtils.isElement(target)) {
-    target = ReactDOM.findDOMNode(target);
-  }
+  target = ReactDOM.findDOMNode(target);
   return this.node.firstChild.show(target);
 };
 
