@@ -17,12 +17,27 @@ limitations under the License.
 
 import platform from '../platform';
 import pageAttributeExpression from '../page-attribute-expression';
+import DoorLock from '../doorlock';
 
 const internal = {};
 
 internal.config = {
   autoStatusBarFill: true,
   animationsDisabled: false
+};
+
+internal.readyLock = new DoorLock();
+
+internal.isReady = () => {
+  return !internal.readyLock.isLocked();
+};
+
+internal.ready = callback => {
+  if (internal.isReady()) {
+    callback();
+  } else {
+    internal.readyLock.waitUnlock(callback);
+  }
 };
 
 internal.nullElement = window.document.createElement('div');

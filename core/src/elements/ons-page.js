@@ -157,12 +157,12 @@ class PageElement extends BaseElement {
       if (this._skipInit) {
         this.removeAttribute('_skipinit');
       } else {
-        util.triggerElementEvent(this, 'init', this.eventDetail);
+        internal.ready(() => util.triggerElementEvent(this, 'init', this.eventDetail));
       }
     }
 
     if (!util.hasAnyComponentAsParent(this)) {
-      setImmediate(() => this._show());
+      internal.ready(() => this._show());
     }
 
     this._tryToFillStatusBar();

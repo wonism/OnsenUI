@@ -26,7 +26,6 @@ import PageAttributeExpression from './page-attribute-expression';
 import deviceBackButtonDispatcher from './device-back-button-dispatcher';
 import animationOptionsParser from './animation-options-parser';
 import autoStyle from './autostyle';
-import DoorLock from './doorlock';
 
 /**
  * @object ons
@@ -48,9 +47,6 @@ ons.orientation = orientation;
 ons.notification = notification;
 ons._animationOptionsParser = animationOptionsParser;
 ons._autoStyle = autoStyle;
-ons._DoorLock = DoorLock;
-
-ons._readyLock = new DoorLock();
 
 ons.platform.select((window.location.search.match(/platform=([\w-]+)/) || [])[1]);
 
@@ -66,9 +62,19 @@ waitDeviceReady();
  *   [en]Returns true if Onsen UI is initialized.[/en]
  *   [ja]Onsen UIがすでに初期化されているかどうかを返すメソッドです。[/ja]
  */
-ons.isReady = () => {
-  return !ons._readyLock.isLocked();
-};
+ons.isReady = ons._internal.isReady;
+
+/**
+ * @method ready
+ * @signature ready(callback)
+ * @description
+ *   [ja]アプリの初期化に利用するメソッドです。渡された関数は、Onsen UIの初期化が終了している時点で必ず呼ばれます。[/ja]
+ *   [en]Method used to wait for app initialization. The callback will not be executed until Onsen UI has been completely initialized.[/en]
+ * @param {Function} callback
+ *   [en]Function that executes after Onsen UI has been initialized.[/en]
+ *   [ja]Onsen UIが初期化が完了した後に呼び出される関数オブジェクトを指定します。[/ja]
+ */
+ons.ready = ons._internal.ready;
 
 /**
  * @method isWebView
@@ -81,24 +87,6 @@ ons.isReady = () => {
  *   [ja]Cordovaで実行されているかどうかを返すメソッドです。[/ja]
  */
 ons.isWebView = ons.platform.isWebView;
-
-/**
- * @method ready
- * @signature ready(callback)
- * @description
- *   [ja]アプリの初期化に利用するメソッドです。渡された関数は、Onsen UIの初期化が終了している時点で必ず呼ばれます。[/ja]
- *   [en]Method used to wait for app initialization. The callback will not be executed until Onsen UI has been completely initialized.[/en]
- * @param {Function} callback
- *   [en]Function that executes after Onsen UI has been initialized.[/en]
- *   [ja]Onsen UIが初期化が完了した後に呼び出される関数オブジェクトを指定します。[/ja]
- */
-ons.ready = callback => {
-  if (ons.isReady()) {
-    callback();
-  } else {
-    ons._readyLock.waitUnlock(callback);
-  }
-};
 
 /**
  * @method setDefaultDeviceBackButtonListener
@@ -424,7 +412,7 @@ ons._resolveLoadingPlaceholder = function(element, page, link) {
 };
 
 function waitDeviceReady() {
-  const unlockDeviceReady = ons._readyLock.lock();
+  const unlockDeviceReady = ons._internal.readyLock.lock();
   window.addEventListener('WebComponentsReady', () => {
     if (ons.isWebView()) {
       window.document.addEventListener('deviceready', unlockDeviceReady, false);
